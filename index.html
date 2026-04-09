@@ -1,278 +1,567 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
-  <!-- Meta tags for social media banners, these should be filled in appropriately as they are your "business card" -->
-  <!-- Replace the content tag with appropriate information -->
-  <meta name="description" content="Diffusion in Style">
-  <meta property="og:title" content="Diffusion in Style" />
-  <meta property="og:description" content="Diffusion in Style" />
-  <meta property="og:url" content="https://ivrl.github.io/diffusion-in-style/" />
-  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
-  <meta property="og:image" content="static/image/your_banner_image.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-
-
-  <meta name="twitter:title" content="Diffusion in Style">
-  <meta name="twitter:description" content="Diffusion in Style">
-  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
-  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <!-- Keywords for your paper to be indexed by-->
-  <meta name="keywords" content="Diffusion models, Style adaptation, Stable Diffusion">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Diffusion in Style - Everaert et al. - ICCV 2023">
+  <meta name="description" content="We customize Stable Diffusion's output style by adapting the initial noise distribution, making style adaptation more sample-efficient and faster.">
+  <meta name="keywords" content="Diffusion models, Style adaptation, Stable Diffusion, initial noise distribution, style-specific noise distribution, ICCV 2023, machine learning, computer vision, AI">
+  <meta name="author" content="Martin Nicolas Everaert, Marco Bocchio, Sami Arpa, Sabine Süsstrunk, Radhakrishna Achanta">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  
+   <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="IVRL - EPFL">
+  <meta property="og:title" content="Diffusion in Style - Everaert et al. - ICCV 2023">
+  <meta property="og:description" content="We customize Stable Diffusion's output style by adapting the initial noise distribution, making style adaptation more sample-efficient and faster.">
+  <meta property="og:url" content="https://ivrl.github.io/diffusion-in-style/">
+  <meta property="og:image" content="https://ivrl.github.io/diffusion-in-style/static/images/teaser.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Teaser image showing example results of our Diffusion in Style method.">
+  <meta property="article:published_time" content="2023-10-02T00:00:00.000Z">
+  <meta property="article:author" content="Martin Nicolas Everaert">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="Diffusion models">
+  <meta property="article:tag" content="Style adaptation">
+  <meta property="article:tag" content="Stable Diffusion">
+  <meta property="article:tag" content="initial noise distribution">
+  <meta property="article:tag" content="style-specific noise distribution">
+  <meta property="article:tag" content="ICCV 2023">
+  <meta property="article:tag" content="machine learning">
+  <meta property="article:tag" content="computer vision">
+  <meta property="article:tag" content="AI">
 
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- TODO: Replace with your lab/institution Twitter handle
+  <meta name="twitter:site" content="@YOUR_TWITTER_HANDLE">  -->
+  <meta name="twitter:creator" content="@EveraertMartin">
+  <meta name="twitter:title" content="Diffusion in Style - Everaert et al. - ICCV 2023">
+  <meta name="twitter:description" content="We customize Stable Diffusion's output style by adapting the initial noise distribution, making style adaptation more sample-efficient and faster.">
+  <meta name="twitter:image" content="https://ivrl.github.io/diffusion-in-style/static/images/teaser.png">
+  <meta name="twitter:image:alt" content="Teaser image showing example results of our Diffusion in Style method.">
 
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="Diffusion in Style">
+  <meta name="citation_author" content="Everaert, Martin Nicolas">
+  <meta name="citation_author" content="Bocchio, Marco">
+  <meta name="citation_author" content="Arpa, Sami">
+  <meta name="citation_author" content="Süsstrunk, Sabine">
+  <meta name="citation_author" content="Achanta, Radhakrishna">
+  <meta name="citation_publication_date" content="2023">
+  <meta name="citation_conference_title" content="IEEE/CVF International Conference on Computer Vision (ICCV 2023)">
+  <meta name="citation_pdf_url" content="https://openaccess.thecvf.com/content/ICCV2023/papers/Everaert_Diffusion_in_Style_ICCV_2023_paper.pdf">
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://documentcloud.adobe.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  
   <title>Diffusion in Style</title>
-  <!-- <link rel="icon" type="image/x-icon" href="static/images/favicon.ico"> -->
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
-
+  
+  <!-- Favicon and App Icons 
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico"> -->
+  
+  <!-- Critical CSS - Load synchronously -->
   <link rel="stylesheet" href="static/css/bulma.min.css">
-  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="static/css/index.css">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+  
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
   <script defer src="static/js/fontawesome.all.min.js"></script>
-  <script src="static/js/bulma-carousel.min.js"></script>
-  <script src="static/js/bulma-slider.min.js"></script>
-  <script src="static/js/index.js"></script>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+  
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Diffusion in Style",
+    "description": "We customize Stable Diffusion's output style by adapting the initial noise distribution, making style adaptation more sample-efficient and faster.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Martin Nicolas Everaert",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "EPFL"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Marco Bocchio",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Largo.ai"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Sami Arpa",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Largo.ai"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Sabine Süsstrunk",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "EPFL"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Radhakrishna Achanta",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "EPFL"
+        }
+      }
+    ],
+    "datePublished": " 2023-10-02",
+    "publisher": {
+      "@type": "Organization",
+      "name": "IEEE/CVF International Conference on Computer Vision (ICCV)"
+    },
+    "url": "https://ivrl.github.io/diffusion-in-style/",
+    "image": "https://ivrl.github.io/diffusion-in-style/static/images/teaser.png",
+    "keywords": ["Diffusion models", "Style adaptation", "Stable Diffusion", "initial noise distribution", "style-specific noise distribution", "machine learning", "computer vision"],
+    "abstract": "We present Diffusion in Style, a simple method to adapt Stable Diffusion to any desired style, using only a small set of target images. It is based on the key observation that the style of the images generated by Stable Diffusion is tied to the initial latent tensor. Not adapting this initial latent tensor to the style makes fine-tuning slow, expensive, and impractical, especially when only a few target style images are available. In contrast, fine-tuning is much easier if this initial latent tensor is also adapted. Our Diffusion in Style is orders of magnitude more sample-efficient and faster. It also generates more pleasing images than existing approaches, as shown qualitatively and with quantitative comparisons.",
+    "isAccessibleForFree": true
+  }
+  </script>
 
+  <!-- Website/Organization Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "IVRL - EPFL",
+    "url": "https://www.epfl.ch/labs/ivrl/"
+  }
+  </script>
+  
   <meta name="google-site-verification" content="ohByZQJx9EYQ7Po92WxVz1fvVDkQqgI6U5wQZ_7mKBY" />
 </head>
 
 <body>
 
 
-  <section class="hero">
-    <div class="hero-body">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered">
-          <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">Diffusion in Style</h1>
-            <div class="is-size-5 publication-authors">
-              <span class="author-block">
-                <a href="https://scholar.google.com/citations?user=1TDqUuwAAAAJ" target="_blank">Martin Nicolas
-                  Everaert</a> <sup>1</sup>,
-              </span>
-              <span class="author-block">
-                <a href="https://scholar.google.com/citations?user=KDiTxBQAAAAJ" target="_blank">Marco
-                  Bocchio</a> <sup>2</sup>,
-              </span>
-              <span class="author-block">
-                <a href="https://scholar.google.com/citations?user=84FopNgAAAAJ" target="_blank">Sami Arpa</a>
-                <sup>2</sup>,
-              </span>
-              <span class="author-block">
-                <a href="https://scholar.google.com/citations?user=EX3OYP4AAAAJ" target="_blank">Sabine Süsstrunk</a>
-                <sup>1</sup>,
-              </span>
-              <span class="author-block">
-                <a href="https://scholar.google.com/citations?user=lc2HaZwAAAAJ" target="_blank">Radhakrishna
-                  Achanta</a> <sup>1</sup>
-              </span>
-            </div>
-            <div class="is-size-5 publication-authors">
-              <span class="author-block">
-                <sup>1</sup> School of Computer and Communication Sciences, EPFL, Switzerland, <br><sup>2</sup>
-                Largo.ai, Lausanne, Switzerland
-              </span>
-            </div>
-            <div class="is-size-5 publication-authors">
-              <span class="author-block">ICCV 2023 + Patent filed PCT/EP2023/065063</span>
-            </div>
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
 
+  <!-- More Works Dropdown -->
+  <div class="more-works-container">
+    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works">
+      <i class="fas fa-flask"></i>
+      More Works
+      <i class="fas fa-chevron-down dropdown-arrow"></i>
+    </button>
+    <div class="more-works-dropdown" id="moreWorksDropdown">
+      <div class="dropdown-header">
+        <h4>More Works</h4>
+        <button class="close-btn" onclick="toggleMoreWorks()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="works-list">
+        <a href="https://martin-ev.github.io/vgoq" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Visual Grounding for Object Questions</h5>
+            <p>Introduces Visual Grounding for Object Questions (VGOQ), a new task for grounding visual evidence or context that supports answering general questions about objects, beyond directly visible elements.</p>
+            <span class="work-venue">To appear in CVPR 2026</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://ivrl.github.io/covariance-mismatch/" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Covariance Mismatch in Diffusion Models</h5>
+            <p>Investigates the covariance mismatch between noise and data in diffusion models and its impact on image generation.</p>
+            <span class="work-venue">Preprint 2024</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://ivrl.github.io/signal-leak-bias/" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Exploiting the Signal-Leak Bias in Diffusion Models</h5>
+            <p>Examines and leverages the signal-leak bias in diffusion models for improved image generation.</p>
+            <span class="work-venue">WACV 2024</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://ivrl.github.io/diffusion-in-style/" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Diffusion in Style</h5>
+            <p>Customizes Stable Diffusion's output style by adapting the initial noise distribution, making style adaptation more sample-efficient and faster.</p>
+            <span class="work-venue">ICCV 2023</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://ivrl.github.io/vetim/" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>VETIM: Expanding the Vocabulary of Text-to-Image Models only with Text</h5>
+            <p>Expands text-to-image models' vocabulary by learning new token embeddings from textual descriptions alone, without requiring sample images.</p>
+            <span class="work-venue">BMVC 2023</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://ivrl.github.io/ComicsDepth/" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Estimating Image Depth in the Comics Domain</h5>
+            <p>Estimates depth in comic book images by converting them to natural images and filtering out text to improve accuracy.</p>
+            <span class="work-venue">WACV 2022</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://arxiv.org/abs/2006.02333" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Scene Relighting with Illumination Estimation in the Latent Space</h5>
+            <p>Transfers lighting conditions between images by estimating and manipulating illumination in the latent space of an encoder-decoder network.</p>
+            <span class="work-venue">arXiv 2020</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://www.epfl.ch/labs/ivrl" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>More works from Image and Visual Representation Lab (IVRL)</h5>
+            <p>Also check more works from our labmates at the Image and Visual Representation Lab (IVRL) at EPFL.</p>
+            <span class="work-venue">IVRL - EPFL</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
             <div class="column has-text-centered">
-              <div class="publication-links">
-                <span class="link-block">
-                  <a href="https://openaccess.thecvf.com/content/ICCV2023/papers/Everaert_Diffusion_in_Style_ICCV_2023_paper.pdf" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                    </span>
-                    <span>Paper</span>
-                  </a>
+              <h1 class="title is-1 publication-title">Diffusion in Style</h1>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                  <a href="https://martin-ev.github.io/" target="_blank">Martin Nicolas Everaert</a> <sup>1</sup>,
                 </span>
-                <span class="link-block">
-                  <a href="https://openaccess.thecvf.com/content/ICCV2023/supplemental/Everaert_Diffusion_in_Style_ICCV_2023_supplemental.pdf" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                    </span>
-                    <span>Supplementary document</span>
-                  </a>
+                <span class="author-block">
+                  <a href="https://scholar.google.com/citations?user=KDiTxBQAAAAJ" target="_blank">Marco Bocchio</a> <sup>2</sup>,
                 </span>
-                <span class="link-block">
-                  <a href="https://openaccess.thecvf.com/content/ICCV2023/html/Everaert_Diffusion_in_Style_ICCV_2023_paper.html" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fas fa-external-link-alt"></i>
-                    </span>
-                    <span>CVF</span>
-                  </a>
+                <span class="author-block">
+                  <a href="https://scholar.google.com/citations?user=84FopNgAAAAJ" target="_blank">Sami Arpa</a> <sup>2</sup>,
                 </span>
+                <span class="author-block">
+                  <a href="https://scholar.google.com/citations?user=EX3OYP4AAAAJ" target="_blank">Sabine Süsstrunk</a> <sup>1</sup>,
+                </span>
+                <span class="author-block">
+                  <a href="https://scholar.google.com/citations?user=lc2HaZwAAAAJ" target="_blank">Radhakrishna Achanta</a> <sup>1</sup>
+                </span>
+              </div>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                  <sup>1</sup> EPFL, Switzerland, <br><sup>2</sup> Largo.ai, Lausanne, Switzerland
+                </span>
+              </div>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block"><a href="https://iccv2023.thecvf.com/" target="_blank">ICCV 2023</a> + <a href="https://patents.google.com/patent/WO2024251351A1/" target="_blank">Patent filed PCT/EP2023/065063</a></span>
+              </div>
+
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <span class="link-block">
+                    <a href="https://openaccess.thecvf.com/content/ICCV2023/html/Everaert_Diffusion_in_Style_ICCV_2023_paper.html" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-external-link-alt"></i>
+                      </span>
+                      <span>ICCV 2023 open access</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a href="https://openaccess.thecvf.com/content/ICCV2023/papers/Everaert_Diffusion_in_Style_ICCV_2023_paper.pdf" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Paper</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a href="https://openaccess.thecvf.com/content/ICCV2023/supplemental/Everaert_Diffusion_in_Style_ICCV_2023_supplemental.pdf" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Supplementary document</span>
+                    </a>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Teaser -->
-  <section class="hero teaser">
-    <div class="container is-max-desktop">
-      <div class="hero-body">
-        <img src="static/images/teaser.png" width="100%" alt="teaser image" class="center" />
-      </div>
-    </div>
-  </section>
-  <!-- End teaser -->
-
-  <!-- Paper abstract -->
-  <section class="section hero is-light">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          <h2 class="title is-3">Abstract</h2>
-          <div class="content has-text-justified">
-            <p>
-              We present Diffusion in Style, a simple method to adapt Stable Diffusion to any desired style, using only
-              a small set of target images. It is based on the key observation that the style of the images generated by
-              Stable Diffusion is tied to the initial latent tensor. Not adapting this initial latent tensor to the
-              style makes fine-tuning slow, expensive, and impractical, especially when only a few target style images
-              are available. In contrast, fine-tuning is much easier if this initial latent tensor is also adapted. Our
-              Diffusion in Style is orders of magnitude more sample-efficient and faster. It also generates more
-              pleasing images than existing approaches, as shown qualitatively and with quantitative comparisons.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End paper abstract -->
-
-
-  <!-- Youtube video -->
-<section class="hero is-small is-light">
-  <div class="hero-body">
-    <div class="container">
-      <!-- Paper video. -->
-      <div class="columns is-centered has-text-centered">
-        <h2 class="title is-3">Video Presentation</h2>
-      </div>
-      <div class="columns is-centered has-text-centered">
-        <div class="publication-video">
-          <!-- Youtube embed code here -->
-          <iframe src="https://www.youtube.com/embed/3Ge98E4x4JA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- End youtube video -->
-
-
-<section class="hero is-small">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-        <h2 class="title is-3">Approach</h2>
-      </div>
-      <div class="content has-text-justified">
-        <p>
-          We perform style adaptation of Stable Diffusion by fine-tuning the denoising U-Net with a style-specific noise distribution instead of the default
-          white noise distribution.
-          The parameters of the style-specific noise distribution are derived by computing statistics from a small set of images of the desired style. The same set of target-style images is also used for fine-tuning.
-        </p>
-      </div>
-      <img src="static/images/training.png" width="100%" alt="teaser image" class="center" />
-      <div class="content has-text-justified">
-        <p>
-          At inference time, we sample the initial latent tensor from the style-specific noise distribution and use the fine-tuned denoising U‑Net to iteratively denoise it.
-        </p>
-      </div>
-      <img src="static/images/inference.png" width="100%" alt="teaser image" class="center" />
-    </div>
-  </div>
-</section>
-
-
-  <section class="hero is-small">
-    <div class="hero-body">
-      <div class="container">
-        <div class="columns is-centered has-text-centered">
-          <h2 class="title is-3">Poster</h2>
-        </div>
-        <iframe src="static/pdfs/poster.pdf" width="100%" height="674" frameborder="0">
-        </iframe>
-      </div>
-    </div>
-  </section>
-
-
-  <!--BibTex citation -->
-  <section class="section" id="BibTeX">
-    <div class="container content">
-      <div class="columns is-centered has-text-centered">
-        <h2 class="title is-3">Citation</h2>
-      </div>
+    <!-- Teaser -->
+    <section class="hero teaser">
       <div class="container is-max-desktop">
-        <pre><code>
-@InProceedings{Everaert_2023_ICCV,
-    author    = {Everaert, Martin Nicolas and Bocchio, Marco and Arpa, Sami and S\"usstrunk, Sabine and Achanta, Radhakrishna},
-    title     = {{D}iffusion in {S}tyle},
-    booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
-    month     = {October},
-    year      = {2023},
-    pages     = {2251-2261}
-}
-      </code></pre>
+        <div class="hero-body">
+          <img src="static/images/teaser.png" width="100%" alt="teaser image" class="center" />
+        </div>
       </div>
-    </div>
-  </section>
-  <!--End BibTex citation -->
+    </section>
+    <!-- End teaser -->
 
-  <section class="section hero is-light">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          <h2 class="title is-3">License</h2>
-          <div class="content has-text-justified">
-            <p>
-              This work corresponds to the patent filed under the reference number PCT/EP2023/065063. This work is under the license of <a href="https://home.largo.ai/" target="_blank">Largo.ai</a>, contact Largo.ai for any usage requests at <a href="mailto:info@largo.ai">info@largo.ai</a>.
-            </p>
+    <!-- Paper abstract -->
+    <section class="section hero is-light">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                We present Diffusion in Style, a simple method to adapt Stable Diffusion to any desired style, using only
+                a small set of target images. It is based on the key observation that the style of the images generated by
+                Stable Diffusion is tied to the initial latent tensor. Not adapting this initial latent tensor to the
+                style makes fine-tuning slow, expensive, and impractical, especially when only a few target style images
+                are available. In contrast, fine-tuning is much easier if this initial latent tensor is also adapted. Our
+                Diffusion in Style is orders of magnitude more sample-efficient and faster. It also generates more
+                pleasing images than existing approaches, as shown qualitatively and with quantitative comparisons.
+              </p>
+            </div>
           </div>
         </div>
       </div>
+    </section>
+    <!-- End paper abstract -->
+
+
+    <!-- Image carousel 
+    <section class="hero is-small">
+      <div class="hero-body">
+        <div class="container">
+          <div id="results-carousel" class="carousel results-carousel">
+          <div class="item">
+            <img src="static/images/carousel1.jpg" alt="First research result visualization" loading="lazy"/>
+            <h2 class="subtitle has-text-centered">
+              First image description.
+            </h2>
+          </div>
+          <div class="item">
+            <img src="static/images/carousel2.jpg" alt="Second research result visualization" loading="lazy"/>
+            <h2 class="subtitle has-text-centered">
+              Second image description.
+            </h2>
+          </div>
+          <div class="item">
+            <img src="static/images/carousel3.jpg" alt="Third research result visualization" loading="lazy"/>
+            <h2 class="subtitle has-text-centered">
+            Third image description.
+          </h2>
+        </div>
+        <div class="item">
+          <img src="static/images/carousel4.jpg" alt="Fourth research result visualization" loading="lazy"/>
+          <h2 class="subtitle has-text-centered">
+            Fourth image description.
+          </h2>
+        </div>
+      </div>
     </div>
-  </section>
+    </div>
+    </section>
+    End image carousel -->
 
+    <!-- Youtube video -->
+    <section class="hero is-small">
+      <div class="hero-body">
+        <div class="container">
+          <!-- Paper video. -->
+          <h2 class="title is-3 has-text-centered">Video Presentation</h2>
+          <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+              <div class="publication-video">
+                <iframe src="https://www.youtube.com/embed/3Ge98E4x4JA?si=-A7eijzgVBhtYmKI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End youtube video -->
 
+    <section class="hero is-small is-light">
+      <div class="hero-body">
+        <div class="container is-max-desktop content">
+          <div class="columns is-centered">
+            <div class="column is-four-fifths">
+              <h2 class="title is-3 has-text-centered">Approach</h2>
+              <div class="content has-text-justified">
+                <p>
+                  We perform style adaptation of Stable Diffusion by fine-tuning the denoising U-Net with a style-specific noise distribution instead of the default
+                  white noise distribution.
+                  The parameters of the style-specific noise distribution are derived by computing statistics from a small set of images of the desired style. The same set of target-style images is also used for fine-tuning.
+                </p>
+              </div>
+              <div class="columns is-centered">
+                <div class="column is-four-fifths has-text-centered">
+                  <img src="static/images/training.png" width="100%" alt="Training process illustration" class="center" />
+                </div>
+              </div>
+              <div class="content has-text-justified">
+                <p>
+                  At inference time, we sample the initial latent tensor from the style-specific noise distribution and use the fine-tuned denoising U‑Net to iteratively denoise it.
+                </p>
+              </div>
+              <div class="columns is-centered">
+                <div class="column is-four-fifths has-text-centered">
+                  <img src="static/images/inference.png" width="100%" alt="Inference process illustration" class="center" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video carousel
+    <section class="hero is-small">
+      <div class="hero-body">
+        <div class="container">
+          <h2 class="title is-3">Another Carousel</h2>
+          <div id="results-carousel" class="carousel results-carousel">
+            <div class="item item-video1">
+              <video poster="" id="video1" controls muted loop height="100%">
+                <!-- Your video file here
+                <source src="static/videos/carousel1.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="item item-video2">
+              <video poster="" id="video2" controls muted loop height="100%">
+                <!-- Your video file here 
+                <source src="static/videos/carousel2.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="item item-video3">
+              <video poster="" id="video3" controls muted loop height="100%">\
+                <!-- Your video file here
+                <source src="static/videos/carousel3.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    End video carousel -->
+    
+    <section class="hero is-small">
+      <div class="hero-body">
+        <div class="container">
+          <h2 class="title is-3 has-text-centered">Poster</h2>
+          <div style="display: flex; justify-content: center;">
+            <iframe src="static/pdfs/poster.pdf" style="width: 90%; aspect-ratio: 1.8 / 1; max-height: 700px;" frameborder="0">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--BibTex citation -->
+    <section class="hero is-small is-light" id="BibTeX">
+      <div class="hero-body">
+        <div class="container is-max-desktop content">
+          <div class="columns is-centered">
+            <div class="column is-four-fifths">
+              <div class="bibtex-header" style="position: relative; align-items: flex-start;">
+                <h2 class="title is-3" style="flex: 1; text-align: center;">Citation</h2>
+                <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+                  <i class="fas fa-copy"></i>
+                  <span class="copy-text">Copy</span>
+                </button>
+              </div>
+              <div class="content has-text-justified">
+                <p>Please use the following BibTeX entry to cite our paper:</p>
+              </div>
+            </div>
+          </div>
+          <pre id="bibtex-code"><code>@InProceedings{Everaert_2023_ICCV,
+  title     = {{D}iffusion in {S}tyle},
+  author    = {Everaert, Martin Nicolas and Bocchio, Marco and Arpa, Sami and S\"usstrunk, Sabine and Achanta, Radhakrishna},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+  month     = {October},
+  year      = {2023},
+  pages     = {2251-2261}
+}</code></pre>
+        </div>
+      </div>
+    </section>
+    <!--End BibTex citation -->
+    <section class="hero is-small">
+      <div class="hero-body">
+        <div class="container is-max-desktop content">
+          <div class="columns is-centered">
+            <div class="column is-four-fifths">
+              <h2 class="title is-3 has-text-centered">License</h2>
+              <div class="content has-text-justified">
+                <p>This work corresponds to the patent filed under the reference number <a href="https://patents.google.com/patent/WO2024251351A1/" target="_blank">PCT/EP2023/065063</a>. This work is under the license of <a href="https://home.largo.ai/" target="_blank">Largo.ai</a>, contact Largo.ai for any usage requests at <a href="mailto:info@largo.ai">info@largo.ai</a>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
   <footer class="footer">
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-8">
           <div class="content">
-
             <p>
               This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template"
-                target="_blank">Academic Project Page Template</a>.
+                target="_blank">Academic Project Page Template</a> which was adopted from the <a
+                href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
             </p>
-
           </div>
         </div>
       </div>
     </div>
   </footer>
 
-
 </body>
-
 </html>
