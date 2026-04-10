@@ -637,10 +637,15 @@ code {
     right: 1rem;
     top: auto;
   }
-  
+
   .more-works-btn {
     padding: 0.6rem 1rem;
     font-size: 0.8rem;
+  }
+
+  .scroll-to-top {
+    right: auto;
+    left: 1rem;
   }
   
   .more-works-dropdown {
