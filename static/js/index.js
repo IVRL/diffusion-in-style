@@ -1,5 +1,29 @@
 window.HELP_IMPROVE_VIDEOJS = false;
 
+// Poster: tap once to reveal download button, tap again to download (mobile)
+document.addEventListener('DOMContentLoaded', function() {
+    var posterContainer = document.querySelector('.poster-container');
+    if (posterContainer) {
+        var posterImg = posterContainer.querySelector('img');
+        var posterImgLink = posterImg ? posterImg.closest('a') : null;
+        if (posterImgLink) {
+            posterImgLink.addEventListener('click', function(e) {
+                if (!window.matchMedia('(hover: hover)').matches) {
+                    if (!posterContainer.classList.contains('show-btn')) {
+                        e.preventDefault();
+                        posterContainer.classList.add('show-btn');
+                    }
+                }
+            });
+        }
+        document.addEventListener('click', function(e) {
+            if (!posterContainer.contains(e.target)) {
+                posterContainer.classList.remove('show-btn');
+            }
+        });
+    }
+});
+
 // More Works Dropdown Functionality
 function toggleMoreWorks() {
     const dropdown = document.getElementById('moreWorksDropdown');

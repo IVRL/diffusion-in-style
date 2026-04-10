@@ -19,7 +19,7 @@
   <meta property="og:title" content="Diffusion in Style - Everaert et al. - ICCV 2023">
   <meta property="og:description" content="We customize Stable Diffusion's output style by adapting the initial noise distribution, making style adaptation more sample-efficient and faster.">
   <meta property="og:url" content="https://ivrl.github.io/diffusion-in-style/">
-  <meta property="og:image" content="https://ivrl.github.io/diffusion-in-style/static/images/teaser.png">
+  <meta property="og:image" content="https://ivrl.github.io/diffusion-in-style/static/images/teaser_preview.jpg">
   <meta property="og:image:width" content="1068">
   <meta property="og:image:height" content="380">
   <meta property="og:image:alt" content="Teaser image showing example results of our Diffusion in Style method.">
@@ -43,7 +43,7 @@
   <meta name="twitter:creator" content="@EveraertMartin">
   <meta name="twitter:title" content="Diffusion in Style - Everaert et al. - ICCV 2023">
   <meta name="twitter:description" content="We customize Stable Diffusion's output style by adapting the initial noise distribution, making style adaptation more sample-efficient and faster.">
-  <meta name="twitter:image" content="https://ivrl.github.io/diffusion-in-style/static/images/teaser.png">
+  <meta name="twitter:image" content="https://ivrl.github.io/diffusion-in-style/static/images/teaser_preview.jpg">
   <meta name="twitter:image:alt" content="Teaser image showing example results of our Diffusion in Style method.">
 
   <!-- Academic/Research Specific -->
@@ -72,9 +72,9 @@
   
   <title>Diffusion in Style</title>
   
-  <!-- Favicon and App Icons 
-  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
-  <link rel="apple-touch-icon" href="static/images/favicon.ico"> -->
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/png" href="static/images/favicon.png">
+  <link rel="apple-touch-icon" href="static/images/favicon.png">
   
   <!-- Critical CSS - Load synchronously -->
   <link rel="stylesheet" href="static/css/bulma.min.css">
@@ -491,36 +491,47 @@
     </section>
     End video carousel -->
     
+    <!--Poster -->
     <section class="hero is-small">
       <div class="hero-body">
         <div class="container">
           <h2 class="title is-3 has-text-centered">Poster</h2>
-          <div style="display: flex; justify-content: center;">
-            <iframe src="static/pdfs/poster.pdf" style="width: 90%; aspect-ratio: 1.8 / 1; max-height: 700px;" frameborder="0">
-            </iframe>
+          <div class="columns is-centered">
+            <div class="column is-four-fifths">
+              <div class="poster-container" style="position: relative;">
+                <a href="static/pdfs/poster.pdf" target="_blank" class="download-poster-btn" style="position: absolute; top: 0.5rem; right: 0.5rem; text-decoration: none; opacity: 0; transition: opacity 0.3s ease; z-index: 1;" title="Download Poster as PDF">
+                  <i class="fas fa-download"></i>
+                  <span class="copy-text">PDF</span>
+                </a>
+                <a href="static/pdfs/poster.pdf" target="_blank">
+                  <img src="static/images/poster.png" alt="Diffusion in Style - ICCV 2023 Poster" style="width: 100%; display: block; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); border-radius: 8px; border: 1px solid rgba(0, 0, 0, 0.08);">
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
+    <!--End Poster -->
+    
     <!--BibTex citation -->
     <section class="hero is-small is-light" id="BibTeX">
       <div class="hero-body">
         <div class="container is-max-desktop content">
           <div class="columns is-centered">
             <div class="column is-four-fifths">
-              <div class="bibtex-header" style="position: relative; align-items: flex-start;">
-                <h2 class="title is-3" style="flex: 1; text-align: center;">Citation</h2>
-                <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
-                  <i class="fas fa-copy"></i>
-                  <span class="copy-text">Copy</span>
-                </button>
-              </div>
+              <h2 class="title is-3 has-text-centered">Citation</h2>
               <div class="content has-text-justified">
                 <p>Please use the following BibTeX entry to cite our paper:</p>
               </div>
             </div>
           </div>
-          <pre id="bibtex-code"><code>@InProceedings{Everaert_2023_ICCV,
+          <div style="position: relative;">
+            <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard" style="position: absolute; top: 0; right: 0; z-index: 1;">
+              <i class="fas fa-copy"></i>
+              <span class="copy-text">Copy</span>
+            </button>
+            <pre id="bibtex-code"><code>@InProceedings{Everaert_2023_ICCV,
   title     = {{D}iffusion in {S}tyle},
   author    = {Everaert, Martin Nicolas and Bocchio, Marco and Arpa, Sami and S\"usstrunk, Sabine and Achanta, Radhakrishna},
   booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
@@ -528,6 +539,7 @@
   year      = {2023},
   pages     = {2251-2261}
 }</code></pre>
+          </div>
         </div>
       </div>
     </section>
