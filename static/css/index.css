@@ -97,6 +97,23 @@ body {
   background: var(--background-secondary);
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.hero.is-light a:not(.button):not(.dropdown-item):not(.tag):not(.pagination-link.is-current) {
+  color: var(--primary-color);
+}
+
+.hero.is-light a:not(.button):not(.dropdown-item):not(.tag):not(.pagination-link.is-current):hover {
+  color: var(--primary-hover);
+}
+
+.hero.is-light .title {
+  color: var(--text-primary);
+}
+
+.hero.is-light .subtitle {
+  color: var(--text-secondary);
 }
 
 .hero-body {
