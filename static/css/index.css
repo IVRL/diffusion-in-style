@@ -392,7 +392,7 @@ code {
 .copy-bibtex-btn,
 .download-poster-btn {
   background: var(--primary-color);
-  color: white;
+  color: white !important;
   border: none;
   border-radius: var(--border-radius);
   padding: 0.75rem 1rem;
